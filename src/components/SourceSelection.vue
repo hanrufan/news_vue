@@ -4,11 +4,13 @@
 
             <h2>News List</h2>
             <h4>Select new source</h4>
+        
             <select v-on:change="sourceChanged">
                 <option v-bind:value="source.id" v-for="(source,index) in sourceArr" :key="index">
                     {{source.name}}
                 </option>
             </select>
+
             <div v-if="source">
                 <h6>{{source.description}}</h6>
                 <a v-bind:href="source.url" target="_blank">Go to {{source.name}} website</a>
@@ -17,29 +19,11 @@
         <v-menu offset-y>
             <v-btn color="primary" dark slot="activator">News Feed</v-btn>
             <v-list>
-                <v-list-tile v-for="item in sourceArr" :key="item.title" @click="sourceChanged">
-                    <v-list-tile-title v-bind:value="source.id">{{ item.name }}</v-list-tile-title>
+                <v-list-tile v-for="source in sourceArr" :key="source.title" @click="newsChanged(source.id)">
+                    <v-list-tile-title v-bind:value="source.id"> {{ source.name }}</v-list-tile-title>
                 </v-list-tile>
             </v-list>
         </v-menu>
-
-        <!-- <v-layout row>
-            <v-list two-line>
-                <template v-for="(item, index) in sourceArr">
-                    <v-subheader v-if="item.header" :key="item.header">{{ item.header }}</v-subheader>
-                    <v-divider v-if="index + 1 < item.length" :key="`divider-${index}`"></v-divider>
-                    <v-list-tile avatar v-else :key="item.name">
-                    <v-list-tile-avatar>
-                      
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                        <v-list-tile-title v-html="item.name"></v-list-tile-title>
-                        <v-list-tile-sub-title v-html="item.description"></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                    </v-list-tile>
-                </template>
-            </v-list>
-        </v-layout> -->
     </div>
 </template>
 
@@ -56,6 +40,7 @@ export default {
     },
     methods: {
         sourceChanged: function(e) {
+             console.log('e:',e);
             for (let index = 0; index < this.sourceArr.length; index++) {
                 if(this.sourceArr[index].id === e.target.value) {
                     this.source = this.sourceArr[index];
@@ -63,6 +48,15 @@ export default {
             }
             console.log('e.target.value:',e.target.value);
             this.$emit('sourceChanged', e.target.value);
+        },
+        newsChanged: function(id) {
+             console.log('id:', id);
+            for (let index = 0; index < this.sourceArr.length; index++) {
+                if(this.sourceArr[index].id === id) {
+                    this.source = this.sourceArr[index];
+                }       
+            }
+            this.$emit('newsChanged', e.target.value);
         }
     },
     created: function() {

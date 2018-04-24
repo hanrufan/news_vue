@@ -1,8 +1,9 @@
 <template>
 <v-app>
     <!-- <div v-for="post in posts" :key="post.title"> -->
-    <div v-for="(art,index) in articles" :key="index">
-        <v-card class="my-3" hover>
+    <!-- <div v-for="(art,index) in articles" :key="index"> -->
+    <v-flex xs6 md4>
+        <v-card hover  v-for="(art,index) in articles" :key="index">
             <v-card-media
             class="white--text"
             height="170px"
@@ -22,20 +23,12 @@
             {{art.description}}
             </v-card-text>
             <v-card-actions>
-            <v-btn icon class="red--text">
-                <v-icon medium>fa-reddit</v-icon>
-            </v-btn>
-            <v-btn icon class="light-blue--text">
-                <v-icon medium>fa-twitter</v-icon>
-            </v-btn>
-            <v-btn icon class="blue--text text--darken-4">
-                <v-icon medium>fa-facebook</v-icon>
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn flat class="blue--text">Read More</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn flat class="blue--text">Read More</v-btn>
             </v-card-actions>
         </v-card>
-    </div>
+    </v-flex>
+    <!-- </div> -->
 </v-app>
 </template>
 
