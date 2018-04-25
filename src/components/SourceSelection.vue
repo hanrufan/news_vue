@@ -1,8 +1,7 @@
 <template>
-<v-app>  
-    <v-layout row wrap>
+    <v-layout row >
         <v-flex sm12 md-10 md-offset-1>
-            <v-jumbotron color="grey lighten-2" >
+            <v-jumbotron v-bind:class="[classArray]">
                 <v-container fill-height>
                     <v-layout align-center>
                         <v-flex>
@@ -28,7 +27,6 @@
             </v-jumbotron>
         </v-flex>
     </v-layout>
-</v-app>
 </template>
 
 <script>
@@ -39,7 +37,8 @@ export default {
     data () {
         return {
             sourceArr: [],
-            source: ''
+            source: '',
+            classArray: []
         }
     },
     methods: {
@@ -50,6 +49,7 @@ export default {
                 }       
             }
             this.$emit('sourceChanged', id);
+            this.changeBg();
         },
         chkSource() {
             for (let index = 0; index < this.sourceArr.length; index++) {
@@ -57,20 +57,29 @@ export default {
                     this.source = this.sourceArr[index];
                 }       
             }
+        },
+        changeBg() {
+            const primary = ['red', 'pink', 'purple', 'deep-purple', 'indigo', 'teal', 'cyan', 'lime', 'amber', 'brown'];
+            const level = ['lighten', 'darken', 'accent'];
+            
+            let useColor = `${primary[Math.floor(Math.random() * 10)]} ${level[Math.floor(Math.random() * 3)]}-${Math.floor(Math.random() * 3) + 1}`;
+            this.classArray.splice(1, 1, useColor);
         }
     },
     created: function() {
         axios.get('https://newsapi.org/v2/sources?language=en&apiKey=4d61abe798b149a0ab2685c68630c444')
         .then(response => {
-            console.log('response:', response.data.sources);
             this.sourceArr = response.data.sources;
             this.chkSource();   
         });
-        
+        this.classArray = ['jum', 'yellow darken-2']
     }
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.jum {
+    margin: 1.5rem auto;
+    background: rgba(255, 255, 255, 0.5);
+}
 </style>
